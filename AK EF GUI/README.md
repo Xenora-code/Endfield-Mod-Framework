@@ -2,16 +2,19 @@
 
 An open-source launcher and mod framework for Arknights: Endfield.
 
-## Features
-- GUI mod launcher
-- Mod folder loading
-- Lua mod support (framework level)
-- Open-source & community driven
+## Goals
+- Provide a safe, extendable mod framework
+- Encourage cosmetic and UI-based mods
+- Allow community contributions
 
 ## Not a Cheat Tool
-This project does NOT inject code, bypass DRM, or modify protected game binaries.
+This project does not bypass DRM, inject code, or modify protected game files.
 
 ## Getting Started
-```bash
-pip install -r requirements.txt
-python launcher/gui.py
+1. Clone the repo
+2. Install requirements
+3. Place mods in `/mods`
+4. Run `launcher.py`
+
+## License
+MIT
