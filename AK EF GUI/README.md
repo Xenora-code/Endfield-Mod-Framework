@@ -18,3 +18,8 @@ This project does not bypass DRM, inject code, or modify protected game files.
 
 ## License
 MIT
+
+## Other
+This project is a community-driven mod framework.
+It does not support cheating, exploits, or violation of game terms.
+Users are responsible for compliance with the game's EULA.
