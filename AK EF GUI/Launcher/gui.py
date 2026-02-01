@@ -7,12 +7,13 @@ from PySide6.QtWidgets import (
 )
 from loader.mod_loader import load_mods, save_enabled_config
 from launcher.game_path import get_game_exe
+from loader.mod_updater import update_all
 
 class LauncherUI(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Endfield Mod Launcher")
-        self.setFixedSize(440, 560)
+        self.setFixedSize(460, 600)
 
         self.mods = []
 
@@ -25,6 +26,10 @@ class LauncherUI(QWidget):
         self.mod_list = QListWidget()
         self.mod_list.itemChanged.connect(self.save_mod_states)
         layout.addWidget(self.mod_list)
+
+        self.update_button = QPushButton("Update Mods")
+        self.update_button.clicked.connect(self.update_mods)
+        layout.addWidget(self.update_button)
 
         self.launch_button = QPushButton("Launch Game")
         self.launch_button.clicked.connect(self.launch_game)
@@ -48,13 +53,19 @@ class LauncherUI(QWidget):
             config[mod["folder"]] = self.mod_list.item(i).checkState() == 2
         save_enabled_config(config)
 
+    def update_mods(self):
+        updated = update_all(self.mods)
+        if updated:
+            QMessageBox.information(self, "Updates", "Updated:\n" + "\n".join(updated))
+        else:
+            QMessageBox.information(self, "Updates", "All mods are up to date.")
+        self.load_mods()
+
     def launch_game(self):
         game_exe = get_game_exe()
-
         if not game_exe:
             QMessageBox.critical(self, "Error", "Game executable not found!")
             return
-
         subprocess.Popen([game_exe])
 
 if __name__ == "__main__":
