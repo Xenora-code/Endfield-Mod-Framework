@@ -5,6 +5,5 @@
   "description": "Sample Endfield mod",
   "entry": "main.lua",
   "depends": [],
-  "update_url": "https://raw.githubusercontent.com/Xenora-code/REPO/main/mods/ExampleMod/mod.json"
+  "update_url": "https://raw.githubusercontent.com/USERNAME/REPO/main/mods/ExampleMod/mod.json"
 }
-
