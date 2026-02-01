@@ -2,17 +2,19 @@ import sys
 import subprocess
 from PySide6.QtWidgets import (
     QApplication, QWidget, QVBoxLayout,
-    QLabel, QListWidget, QPushButton, QMessageBox
+    QLabel, QListWidget, QListWidgetItem,
+    QPushButton, QMessageBox
 )
-from loader.mod_loader import load_mods
-
-GAME_EXE = "ArknightsEndfield.exe"
+from loader.mod_loader import load_mods, save_enabled_config
+from launcher.game_path import get_game_exe
 
 class LauncherUI(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Endfield Mod Launcher")
-        self.setFixedSize(420, 520)
+        self.setFixedSize(440, 560)
+
+        self.mods = []
 
         layout = QVBoxLayout()
 
@@ -21,6 +23,7 @@ class LauncherUI(QWidget):
         layout.addWidget(title)
 
         self.mod_list = QListWidget()
+        self.mod_list.itemChanged.connect(self.save_mod_states)
         layout.addWidget(self.mod_list)
 
         self.launch_button = QPushButton("Launch Game")
@@ -31,15 +34,28 @@ class LauncherUI(QWidget):
         self.load_mods()
 
     def load_mods(self):
-        mods = load_mods()
-        for mod in mods:
-            self.mod_list.addItem(f"{mod['name']} v{mod['version']}")
+        self.mods = load_mods()
+        self.mod_list.clear()
+
+        for mod in self.mods:
+            item = QListWidgetItem(f"{mod['name']} v{mod['version']}")
+            item.setCheckState(2 if mod["enabled"] else 0)
+            self.mod_list.addItem(item)
+
+    def save_mod_states(self):
+        config = {}
+        for i, mod in enumerate(self.mods):
+            config[mod["folder"]] = self.mod_list.item(i).checkState() == 2
+        save_enabled_config(config)
 
     def launch_game(self):
-        try:
-            subprocess.Popen([GAME_EXE])
-        except FileNotFoundError:
+        game_exe = get_game_exe()
+
+        if not game_exe:
             QMessageBox.critical(self, "Error", "Game executable not found!")
+            return
+
+        subprocess.Popen([game_exe])
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
