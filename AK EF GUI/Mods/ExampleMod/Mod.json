@@ -1,0 +1,7 @@
+{
+  "name": "ExampleMod",
+  "version": "1.0.0",
+  "author": "Community",
+  "description": "Sample Endfield mod",
+  "entry": "main.lua"
+}
