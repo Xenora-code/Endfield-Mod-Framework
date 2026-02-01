@@ -1,16 +1,24 @@
+import os
 import subprocess
 from loader.mod_loader import load_mods
-
-GAME_EXE = "ArknightsEndfield.exe"
+from loader.lua_sandbox import run_lua_script
+from launcher.game_path import get_game_exe
 
 def launch_game():
+    game_exe = get_game_exe()
+    if not game_exe:
+        print("Game not found")
+        return
+
     mods = load_mods()
-    print(f"Loaded {len(mods)} mods")
 
     for mod in mods:
-        print(f"- {mod['name']} v{mod['version']}")
+        if mod["enabled"] and "entry" in mod:
+            script = os.path.join("mods", mod["folder"], mod["entry"])
+            if os.path.exists(script):
+                run_lua_script(script)
 
-    subprocess.Popen([GAME_EXE])
+    subprocess.Popen([game_exe])
 
 if __name__ == "__main__":
     launch_game()
