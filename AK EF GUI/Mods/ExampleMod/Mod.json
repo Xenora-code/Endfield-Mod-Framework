@@ -3,5 +3,7 @@
   "version": "1.0.0",
   "author": "Community",
   "description": "Sample Endfield mod",
-  "entry": "main.lua"
+  "entry": "main.lua",
+  "depends": []
 }
+"depends": ["CoreMod", "UIFramework"]
