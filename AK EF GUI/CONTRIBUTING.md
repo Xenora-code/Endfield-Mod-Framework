@@ -5,4 +5,5 @@
 - Submit a PR
 - Follow code style
 
-No cheat or exploit code will be accepted.
+No exploit code will be accepted.
+
