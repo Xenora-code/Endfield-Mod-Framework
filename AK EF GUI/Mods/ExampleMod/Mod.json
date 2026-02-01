@@ -4,6 +4,5 @@
   "author": "Community",
   "description": "Sample Endfield mod",
   "entry": "main.lua",
-  "depends": []
+  "depends": ["CoreMod", "UIFramework"]
 }
-"depends": ["CoreMod", "UIFramework"]
